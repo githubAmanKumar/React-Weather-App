@@ -92,7 +92,7 @@ function WeatherApp() {
                                 <div className="windImage">
                                     <img src={wind_icon} alt="" />
                                 </div>
-                                <div className="windValue"> {Math.round(city.wind.speed * 3)} km/hr Wind Speed</div>
+                                <div className="windValue">{Math.round(city.wind.speed * 3)} km/hr Wind Speed</div>
                             </div>
                         </div>
                     </div>
