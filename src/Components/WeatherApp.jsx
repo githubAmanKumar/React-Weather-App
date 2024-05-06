@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import cloud_icon from '../assets/cloud.png'
 import clear_icon from '../assets/clear.png'
+import warm_icon from '../assets/warm.png'
 import drizzle_icon from '../assets/drizzle.png'
 import rain_icon from '../assets/rain.png'
 import snow_icon from '../assets/snow.png'
@@ -39,9 +40,13 @@ function WeatherApp() {
             setTempImage(cloud_icon)
             setTempText("Cloudy")
         }
-        else if((response.main.temp - 273.15)>20){
+        else if((response.main.temp - 273.15)<40){
             setTempImage(clear_icon)
             setTempText("Clear")
+        }
+        else if((response.main.temp - 273.15)>40){
+            setTempImage(warm_icon)
+            setTempText("Warm")
         }
 
     };
