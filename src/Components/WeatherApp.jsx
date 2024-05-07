@@ -22,7 +22,11 @@ function WeatherApp() {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${import.meta.env.VITE_SECRET_KEY}`;
         const res = await fetch(url);
         const response = await res.json();
-        console.log((response.main.temp - 273.15));
+        // console.log("Temperature",(response.main.temp - 273.15));
+        // console.log("City",(response.name));
+        // console.log("Country",(response.sys.country));
+        // console.log("Humidity",(response.main.humidity));
+        // console.log("Wind Speed",(response.wind.speed));
         setCity(response)
 
         if((response.main.temp - 273.15)<-20){
@@ -51,12 +55,16 @@ function WeatherApp() {
         }
         else if((response.main.temp - 273.15)>35){
             setTempImage(extremeWarm_icon)
-            setTempText("Extreme Warm")
+            setTempText("Warm")
         }
 
     };
     
-    
+    function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+          fetchapi();
+        }
+      }
 
     return (
 
@@ -64,7 +72,7 @@ function WeatherApp() {
 
             <div className="searchBar">
                 <input className="searchBox"
-                    onChange={(event) => { setSearch(event.target.value) }} placeholder='Enter City...'/>
+                    onChange={(event) => { setSearch(event.target.value) }} placeholder='Enter City...' onKeyUp={handleKeyPress}/>
                 <div className="searchicon">
                     <img src={search_icon} onClick={() => { fetchapi() }} className='' alt="" />
                 </div>
@@ -83,9 +91,7 @@ function WeatherApp() {
                         <div className="temperature">{Math.round((city.main.temp - 273.15))}°C - {tempText}</div>
 
 
-                        <div className="cityName">{city.name}, 
-                        {/* {city.location.region}, */}
-                         {city.sys.country}</div>
+                        <div className="cityName">{city.name},{city.sys.country}</div>
 
 
                         <div className="humidityWind">
