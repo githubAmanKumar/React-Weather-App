@@ -16,55 +16,65 @@ function WeatherApp() {
     const [search, setSearch] = useState("")
     const [tempImage, setTempImage] = useState(cloud_icon)
     const [tempText, setTempText] = useState("")
-    
+
+
+
+
 
     const fetchapi = async () => {
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=${import.meta.env.VITE_SECRET_KEY}`;
         const res = await fetch(url);
         const response = await res.json();
-        // console.log("Temperature",(response.main.temp - 273.15));
-        // console.log("City",(response.name));
-        // console.log("Country",(response.sys.country));
-        // console.log("Humidity",(response.main.humidity));
-        // console.log("Wind Speed",(response.wind.speed));
-        setCity(response)
 
-        if((response.main.temp - 273.15)<-20){
-            setTempImage(snow_icon)
-            setTempText("Snowy")
-        }
-        else if((response.main.temp - 273.15)<0){
-            setTempImage(rain_icon)
-            setTempText("Rainy")
-        }
-        else if((response.main.temp - 273.15)<10){
-            setTempImage(drizzle_icon)
-            setTempText("Drizzle")
-        }
-        else if((response.main.temp - 273.15)<20){
-            setTempImage(cloud_icon)
-            setTempText("Cloudy")
-        }
-        else if((response.main.temp - 273.15)<30){
-            setTempImage(clear_icon)
-            setTempText("Clear")
-        }
-        else if((response.main.temp - 273.15)<35){
-            setTempImage(warm_icon)
-            setTempText("Warm")
-        }
-        else if((response.main.temp - 273.15)>35){
-            setTempImage(extremeWarm_icon)
-            setTempText("Warm")
-        }
 
+        try {
+            const res = await fetch(url);
+            if (res.ok) {
+                const response = await res.json();
+                setCity(response)
+
+                if ((response.main.temp - 273.15) < -20) {
+                    setTempImage(snow_icon)
+                    setTempText("Snowy")
+                }
+                else if ((response.main.temp - 273.15) < 0) {
+                    setTempImage(rain_icon)
+                    setTempText("Rainy")
+                }
+                else if ((response.main.temp - 273.15) < 10) {
+                    setTempImage(drizzle_icon)
+                    setTempText("Drizzle")
+                }
+                else if ((response.main.temp - 273.15) < 20) {
+                    setTempImage(cloud_icon)
+                    setTempText("Cloudy")
+                }
+                else if ((response.main.temp - 273.15) < 30) {
+                    setTempImage(clear_icon)
+                    setTempText("Clear")
+                }
+                else if ((response.main.temp - 273.15) < 35) {
+                    setTempImage(warm_icon)
+                    setTempText("Warm")
+                }
+                else if ((response.main.temp - 273.15) > 35) {
+                    setTempImage(extremeWarm_icon)
+                    setTempText("Warm")
+                }
+                console.log(search);
+            } else {
+                alert('City not found');
+            }
+        } catch (error) {
+            console.error('Error fetching weather data:', error);
+        }
     };
-    
+
     function handleKeyPress(event) {
         if (event.keyCode === 13) {
-          fetchapi();
+            fetchapi();
         }
-      }
+    }
 
     return (
 
@@ -72,17 +82,17 @@ function WeatherApp() {
 
             <div className="searchBar">
                 <input className="searchBox"
-                    onChange={(event) => { setSearch(event.target.value) }} placeholder='Enter City...' onKeyUp={handleKeyPress}/>
+                    onChange={(event) => { setSearch(event.target.value) }} placeholder='Enter City...' onKeyUp={handleKeyPress} />
                 <div className="searchicon">
                     <img src={search_icon} onClick={() => { fetchapi() }} className='' alt="" />
                 </div>
             </div>
             {
                 !city ? (
-                    <p>Welcome to my Weather App</p>
+                    <p>Hello</p>
                 ) : (
                     <div className='material'>
-                        
+
                         <div className="weatherImage vibrate-1">
                             <img src={tempImage} className='weatherImageIcon' alt="" />
                         </div>
